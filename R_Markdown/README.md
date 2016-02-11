@@ -14,15 +14,16 @@ Define your parameters: what are the units or groups that you need to iterate th
     # The dataset we will work with displays Johnson & Johnson quarterly earnings per share, from 1960 to 1980
     test <- JohnsonJohnson
     
-    #For the sake of demonstration, let's say we want to produce a very simple report for each quarter, where we plot EPS from 1960       #to 1980
+    #For the sake of demonstration, let's say we want to produce a very simple report for each quarter, where we 
+    #plot EPS from 1960 to 1980
 
     # Put the paramter you want to loop over into a list
     quarters <- colnames(JohnsonJohnson)
     
-    
     # Set up a call to render R markdown while looping through quarters
-    # The .Rmd is a markdown file; we will create it next; for now, insert the path/file name you intend to use, w/extension ".Rmd"
-    # The output file should correspond to the name you want to call each file; if you don't differentiate, each run will overwrite       # previous contents.
+    # The .Rmd is a markdown file; we will create it next; for now, insert the path/file name you intend to use,
+    # w/extension ".Rmd" The output file should correspond to the name you want to call each file; 
+    # if you don't differentiate, each run will overwrite previous contents.
     # Output here is a .docx; html and pdf are also options. 
     # output_dir is the directory where you want to save the quarterly reports you will generate
     
@@ -31,5 +32,14 @@ Define your parameters: what are the units or groups that you need to iterate th
                        output_file =  paste(quarters[i], "_JandJtest.docx", sep=''), 
                        output_dir = 'insertYourDirectoryHere')
     }
+
+**STEP 3:** Create the corresponding .Rmd file
+
+A few things to note: (1) Your title needs to match the title of the argument you pass in your .R file. Based 
+on what we did in Step 2, the title of our .Rmd file should be "JandJ_Tutorial". (2) The params field of the <a href = "https://en.wikipedia.org/wiki/YAML" YAML </a> portion of your .Rmd file need to match the params you define in your render 
+call, and be instantiated in some way (here, they are instantiated as empty strings).
+
+
+
 
 
