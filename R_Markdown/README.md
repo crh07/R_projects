@@ -36,7 +36,7 @@ Define your parameters: what are the units or groups that you need to iterate th
 **STEP 3:** Create the corresponding .Rmd file
 
 A few things to note: (1) Your title needs to match the title of the argument you pass in your .R file. Based 
-on what we did in Step 2, the title of our .Rmd file should be "JandJ_Tutorial". (2) The params field of the <a href = "https://en.wikipedia.org/wiki/YAML"> YAML </a> portion of your .Rmd file need to match the params you define in your render 
+on what we did in Step 2, the title of our .Rmd file should be "JandJ_Tutorial". (2) The params field of the <a href = "https://en.wikipedia.org/wiki/YAML" > YAML </a> portion of your .Rmd file need to match the params you define in your render 
 call, and be instantiated in some way (here, they are instantiated as empty strings).
 
 
