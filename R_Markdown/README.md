@@ -16,13 +16,15 @@ and 10 aspects of automobile design and performance for 32 automobiles (1973–7
     
     test <- mtcars
     
-For the sake of demonstration, let's say we want to produce a very simple report for each engine type, filtering on # of cylinders
+For the sake of demonstration, let's say we want to produce a very simple report for each engine type, filtering on number of cylinders
 
-First, examine the distribution of our dataset:
-    unique(test$cyl) 
+First, examine the distribution of this variable:
+
+     unique(test$cyl) 
 
 Put the paramter you want to loop over into a list
-    cylinders <- sort(unique(test$cyl))
+
+     cylinders <- sort(unique(test$cyl))
     
 Set up a call to render R markdown while looping through these cylinder "types"
 The .Rmd is a markdown file; we will create it next; for now, insert the path/file name you intend to use,
