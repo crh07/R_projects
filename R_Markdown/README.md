@@ -16,18 +16,18 @@ and 10 aspects of automobile design and performance for 32 automobiles (1973–7
     
     test <- mtcars
     
-For the sake of demonstration, let's say we want to produce a very simple report for each engine type, filtering on # of            # cylinders
+For the sake of demonstration, let's say we want to produce a very simple report for each engine type, filtering on # of cylinders
 
 First, examine the distribution of our dataset:
-    unique(test$cyl) #gives us the unique values for cylinder within the mtcars datset {6, 4, 8}
+    unique(test$cyl) 
 
 Put the paramter you want to loop over into a list
     cylinders <- sort(unique(test$cyl))
     
 Set up a call to render R markdown while looping through these cylinder "types"
 The .Rmd is a markdown file; we will create it next; for now, insert the path/file name you intend to use,
-w/extension ".Rmd" The output file should correspond to the name you want to call each file; 
-if you don't differentiate, each run will overwrite previous contents.
+w/extension ".Rmd" The output file should correspond to the name you want to call each file;  
+if you don't differentiate, each run will overwrite previous contents. 
 Output here is a .docx; html and pdf are also options. 
 output_dir is the directory where you want to save the quarterly reports you will generate
     
