@@ -11,26 +11,23 @@ If you have to generate a report for multiple countries/sites/businesses, etc. t
 
 Define your parameters: what are the units or groups that you need to iterate through to produce your reports? Real world examples of this might include: countries, hospitals, business units, reporting quarters, etc. To make this as easy as possible, we will use an R dataset, mtcars. You could easily replace this dataset with one you import yourself and convert to a data.frame (from Excel, STATA, SAS, etc.), or generate within R.
 
-The dataset we will work was extracted from the 1974 Motor Trend US magazine, and comprises fuel consumption 
+The dataset we will work is *mtcars*; it was extracted from the 1974 Motor Trend US magazine, and comprises fuel consumption 
 and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models)
     
     test <- mtcars
     
-For the sake of demonstration, let's say we want to produce a very simple report for each engine type, filtering on number of cylinders
-
-First, examine the distribution of this variable:
+For the sake of demonstration, let's say we want to produce a very simple report for each engine type, filtering on number of cylinders. First, examine the distribution of this variable:
 
      unique(test$cyl) 
 
-Put the paramter you want to loop over into a list
+Put the paramter you want to loop over into a vector:
 
      cylinders <- sort(unique(test$cyl))
     
 Set up a call to render R markdown while looping through these cylinder "types"
 The .Rmd is a markdown file; we will create it next; for now, insert the path/file name you intend to use,
-w/extension ".Rmd" The output file should correspond to the name you want to call each file;  
-if you don't differentiate, each run will overwrite previous contents. 
-Output here is a .docx; html and pdf are also options. 
+w/extension ".Rmd" The output file should correspond to the name you want to call each file; if you don't differentiate, 
+each run will overwrite previous contents. Output here is a .docx; html and pdf are also options. 
 output_dir is the directory where you want to save the quarterly reports you will generate
     
     for(i in 1:length(cylinders)){
