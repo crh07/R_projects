@@ -2,7 +2,7 @@ This code allows you to represent regression output (i.e. coefficients and p-val
 
 The data I worked with can't be posted, but relates to hospitals in a study (i.e. treatment/control hospitals), and DiD estimates for the effect of treatment on various healthcare outcome variables.
 
-![The output will look like this:]("C:/Users/zj5586B/Pictures/ra_SiteLevelMetricsPlot.png")
+![The output will look like this:](/Pictures/ra_SiteLevelMetricsPlot.png)
 
 ```{r echo = FALSE} 
     #Required packages
