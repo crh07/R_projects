@@ -2,15 +2,18 @@ This code allows you to represent regression output (i.e. coefficients and p-val
 
 The data I worked with can't be posted, but relates to hospitals in a study (i.e. treatment/control hospitals), and DiD estimates for the effect of treatment on various healthcare outcome variables.
 
-Your data should (loosely speaking) contain (at least) these fields, and be structured in the following format:
 
-HOSPITAL_ID     PP_DID_RATE      MS_ACTUAL    DID_PVAL
-    1               0.01            los        0.231    #NOT STAT SIG (p>0.10)
-    2               0.45            los        0.001    #COEFFICIENT IS POSITIVE; p <0.01; + and STAT SIG (at 99% confidence level)
-    3              -0.99            los        0.043    #COEFFICIENT IS NEGATIVE; p <0.05; + and STAT SIG (at 95% confidence level)
-    ...             ...             ...
 
 ```{r echo = FALSE} 
+# Your data should (loosely speaking) contain (at least) these fields, and be structured in the following format:
+
+# HOSPITAL_ID     PP_DID_RATE      MS_ACTUAL    DID_PVAL
+#    1               0.01            los        0.231    #NOT STAT SIG (p>0.10)
+#    2               0.45            los        0.001    #COEFFICIENT IS POSITIVE; p <0.01; + and STAT SIG (at 99% confidence level)
+#    3              -0.99            los        0.043    #COEFFICIENT IS NEGATIVE; p <0.05; + and STAT SIG (at 95% confidence level)
+#    ...             ...             ...
+
+
     #Required packages
     require("tidyr")
     require("dplyr")
