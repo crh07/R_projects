@@ -2,6 +2,7 @@ This code allows you to represent regression output (i.e. coefficients and p-val
 
 The data I worked with can't be posted, but relates to hospitals in a study (i.e. treatment/control hospitals), and DiD estimates for the effect of treatment on various healthcare outcome variables.
 
+```{r echo = FALSE} 
     #Required packages
     require("tidyr")
     require("dplyr")
@@ -32,8 +33,8 @@ The data I worked with can't be posted, but relates to hospitals in a study (i.e
    indata <- indata[which(indata$HBPCI==0),]
 
    # Create a significance flag for determining the color of each hospital's bar
-   indata$sigFlag <- ""
-   indata$enrollment <-0.0
+    indata$sigFlag <- ""
+    indata$enrollment <-0.0
 
    for(i in 1:length(indata$HBPCI)){
      
@@ -115,3 +116,4 @@ grid.arrange(arrangeGrob(plot_list[[1]] + theme(legend.position="none"),
                          plot_list[[3]] + theme(legend.position="none"),
                          nrow=1),mylegend, nrow=2,heights=c(10, 1))
 dev.off()
+```
