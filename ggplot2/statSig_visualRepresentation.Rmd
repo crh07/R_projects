@@ -125,6 +125,6 @@ png(filename=paste(graphpath,statType,"_SiteLevelMetricsPlot.png", sep=''), widt
 grid.arrange(arrangeGrob(plot_list[[1]] + theme(legend.position="none"),
                          plot_list[[2]] + theme(legend.position="none"),
                          plot_list[[3]] + theme(legend.position="none"),
-                         nrow=1),mylegend, nrow=2,heights=c(10, 1))
+                         nrow=1, widths=c(1,2,2)), mylegend, nrow=2,heights=c(10, 1))
 dev.off()
 ```
