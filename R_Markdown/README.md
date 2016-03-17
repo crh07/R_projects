@@ -14,7 +14,7 @@ Define your parameters: what are the units or groups that you need to iterate th
 The dataset we will work is *mtcars*; it was extracted from the 1974 Motor Trend US magazine, and comprises fuel consumption 
 and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models)
     
-    test <- mtcars
+    test <- mtcars # here, test is a data frame. 
     
 For the sake of demonstration, let's say we want to produce a very simple report for each engine type, filtering on number of cylinders. First, examine the distribution of this variable:
 
@@ -39,8 +39,28 @@ output_dir is the directory where you want to save the quarterly reports you wil
 **STEP 3:** Create the corresponding .Rmd file
 
 A few things to note: (1) Your title needs to match the title of the argument you pass in your .R file. Based 
-on what we did in Step 2, the title of our .Rmd file should be "JandJ_Tutorial". (2) The params field of the <a href = "https://en.wikipedia.org/wiki/YAML" > YAML </a> portion of your .Rmd file need to match the params you define in your render 
-call, and be instantiated in some way (here, they are instantiated as empty strings).
+on what we did in Step 2, the title of our .Rmd file should be "mtcars_Tutorial". (2) The params field of the <a href = "https://en.wikipedia.org/wiki/YAML" > YAML </a> portion of your .Rmd file need to match the params you define in your render 
+call, and be instantiated in some way (here, our params are "cylinders" and "data", and they are instantiated as empty strings). The YAML portion is separated from the rest of the code with "---", as shown below:
+
+    ---
+    title: "mtcars_Tutorial"
+    author: "crh07"
+    date: "February 18, 2016"
+    output: word_document
+    params:
+     cylinders: 
+          ""
+     data:
+          ""
+    ---
+
+The benefit of using Markdown and parameterizing your code is that you can generate customized documents that have text/plots in common, but that may need specific data points, plots, and unit name fields (i.e. car/country/hospital "x") to change each time. **You're essentially using a "for" loop to generate all the reports you need in a way that is scalable and very easy to update**, provided the input data format and output content format don't change from iteration to iteration. For example, in our .Rmd file, we might have a block of text that is the same for all the reports, and doesn't require customization or alteration:
+
+    This is an example of a generic paragraph that we want to use in ALL the reports we generat, without customizing: "Lorem ipsum        dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit     in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui     officia deserunt mollit anim id est laborum."
+    
+
+
+
 
 
 
