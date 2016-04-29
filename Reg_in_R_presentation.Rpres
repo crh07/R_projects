@@ -1,0 +1,291 @@
+<style type="text/css">
+
+/* ordered and unordered list styles */
+.reveal ul, 
+.reveal ol{
+    font-size: 26px;
+    color: black;
+    list-style-type: square;
+}
+
+.reveal code .r {
+     font-size: 14px;
+}
+
+.reveal pre {
+     font-size: 14px;
+}
+
+.reveal table {
+     font-size: 23px;
+     border-collapse:collapse;
+     margin:auto;
+     border: 1px solid black
+}
+
+.reveal th {  
+     background-color:#E0E0E0 ;
+     border-bottom:1px solid black;
+     padding: 1px;}
+
+.reveal td{
+     border-bottom:1px dotted black;
+     padding:1px;}
+
+.reveal section p {
+  font-size: 27px;
+}
+
+.reveal section h2 {
+  font-size: 34px;
+}
+
+
+</style>
+
+
+Generalized Linear Models in R
+========================================================
+date: April 26, 2016
+width: 1620
+height: 780
+Content adapted from http://www.magesblog.com
+
+Overview
+========================================================
+R is an interpreted language; can be run line-by-line.
+
+For computationally-intensive tasks, C, C++ and Fortran code can be linked and called at run time.
+
+R is open-source, and many useful third-party packages can be easily imported; **glm** is one example.
+
+Today, we'll review:
+- **glm():** generalized linear models function
+- **predict():** predicted values based on linear model objects 
+- **defining functions** in R 
+
+
+
+Generalized Linear Models
+========================================================
+Generalized linear models = generalization of ordinary least squares regression (OLS)
+
+- Allow us to model DVs that have error distributions other than the normal distribution 
+- In R, we can use the **glm()** function for: 
+
+Family  | Default Link Function
+------------- | -------------
+binomial  | (link = "logit")
+gaussian  | (link = "identity")
+Gamma | (link = "inverse")
+inverse.gaussian  | (link = "1/mu^2")
+poisson  | (link = "log")
+
+
+GLM and Predict: Function Syntax
+========================================================
+
+Calling **glm()**:
+```{r, eval=FALSE}
+
+glm(formula, family = gaussian, data, weights, subset,na.action, start = NULL, etastart, mustart, offset, control = list(...), model = TRUE, method = "glm.fit", x = FALSE, y = TRUE, contrasts = NULL, ...)
+```
+
+Most of the time, we won't need to specify or alter many of these arguments.
+
+
+- **formula** is where we introduce the model to be fitted
+- **family** describes the error distribution and link function to be used in the model
+- **data** is our source data (typically a data frame)
+
+***
+Calling **predict()**:
+```{r, eval=FALSE}
+predict(object, newdata, se.fit = FALSE, scale = NULL, df = Inf,
+        interval = c("none", "confidence", "prediction"),
+        level = 0.95, type = c("response", "terms"),
+        terms = NULL, na.action = na.pass,
+        pred.var = res.var/weights, weights = 1, ...)
+```
+- **object** is an object of class inheriting from "lm"
+- **newdata** is an optional data frame in which to look for variables with which to predict. If omitted, the fitted values are used.
+
+
+
+Sample Dataset: Set Up
+========================================================
+We can use an example to illustrate how **glm()** and plotting work. 
+
+- Our sample dataset contains 2 sets of observations: **temperature**, in degrees Celsius, and **units** of ice cream sold.
+
+```{r}
+icecream <- data.frame(temp=c(11.9, 14.2, 15.2, 16.4, 17.2, 18.1, 18.5, 19.4, 22.1, 22.6, 23.4, 25.1), units=c(185, 215, 332, 325, 408, 421, 406, 412, 522, 445, 544, 614))
+```
+- Our data set is held in a **data.frame**. You can also make a dataframe by appending vector(s) to an existing data frame:
+```{r}
+temp <- data.frame(Names=c("Alice", "Bob"), Age=c(20,21))
+temp$GPA <- c(3.5,3.0)
+print(temp)
+```
+
+
+Sample Dataset: Working With Data
+========================================================
+- In R, data frames are similar to 2-D arrays, and can be easily indexed/spliced/appended, etc. For example:
+```{r}
+head(icecream,2) # prints the first 3 rows of our data frame
+icecream$units # prints the "units" column of our data frame
+icecream[which(icecream$temp > 23), ] # prints only if temp > 20
+for(i in 1:length(icecream$units)){
+     if(icecream$units[i] > 530){print("Great sales day!")}
+}
+```
+
+
+Reusable Plotting Function (1 of 2)
+========================================================
+Each time we call **glm()** to model our data, we will want to plot it.
+
+We can make this easier by defining a reusable plotting function.
+
+- To define functions in R, use the following syntax:
+```{r, eval=FALSE}
+# <- is the assignment operator 
+# arg1 ... argN are arguments; type does not need to be specified, but calculation must be valid (i.e. can't add strings)
+# {} control scope
+myfunction <- function(arg1, arg2, ... ){
+statements          
+return(object)      # can be any data type 
+}
+```
+
+Reusable Plotting Function (2 of 2)
+========================================================
+-Our function can be modified each time we call **glm()**: 
+
+```{r,echo=FALSE }
+require("ggplot2")
+```
+
+```{r, fig.align='center'}
+# Think of ggplot as a layered plot builder
+basicPlot <- function(...){
+     plot(units ~ temp, data = icecream, bty="n", lwd=2,
+          main= "Number of icecreams sold", col="#00526D",
+          xlab = "Temperature (Celsius)",
+          ylab = "Units sold", ...)
+     axis(side = 1, col= "grey")
+     axis(side = 2, col = "grey")
+}
+```
+
+***
+
+```{r, fig.align='center'}
+basicPlot()    # Call the function we defined above 
+    
+````
+
+
+OLS Regression 
+========================================================
+We posit that there is a **(positive) linear relationship** between temperature and ice cream sales. We also assume the error terms are normally distributed, with a mean of 0, and variance of $\sigma^{2}$
+- Functional form: $y_i= \alpha+ \beta x_i + \epsilon_i, with  \epsilon_i \sim N(0,\sigma^{2})$
+
+```{r, echo=FALSE}
+library(arm) 
+``` 
+```{r, fig.align='center'}
+# Set up the model
+# The response distribution (i.e. # of units) is Gaussian; link function from E[y] of distribution to its parameter (temp) = identity
+linearModel <- glm(units ~ temp, data = icecream, family=gaussian(link="identity")) 
+display(linearModel)
+```
+***
+```{r, fig.align='center'}
+basicPlot()
+abline(linearModel, col="orange", lwd=2)
+legend(x="topleft", bty="n", lwd=c(2,2), lty=c(NA,1),legend=c("observation", "linear least square"), col=c("#00526D","orange"),pch=c(1,NA))
+```
+
+Log-transformed Linear Regression 
+========================================================
+However, sales can't be negative. Log transformation of the DV yields only **positive** predicted values for y. 
+- Functional form: $y_i  \sim logN(\mu_i,\sigma^{2})$
+- $E[y_i ]= exp(\mu_i + \sigma^{2} /2) = exp(\alpha+ \beta x_i +\sigma^{2} /2 )$
+
+```{r, fig.align='center'}
+logLinModel <-  glm(log(units) ~ temp, data=icecream, family=gaussian(link="identity"))
+display(logLinModel)
+```
+***
+```{r, fig.align='center'}
+
+logLinSig <- summary(logLinModel)$dispersion
+logLinPred <- exp(predict(logLinModel) + 0.5*logLinSig)
+basicPlot()
+lines(icecream$temp, logLinPred, col="red", lwd=2)
+legend(x="topleft", bty="n", lwd=c(2,2), lty=c(NA,1),
+       legend=c("observation", "log-transformed LM"),
+       col=c("#00526D","red"), pch=c(1,NA))
+```
+
+
+Poisson Regression 
+========================================================
+The other models generate real numbers, but units sold are whole numbers. For **count data**, Poisson is a better fit. 
+
+
+The link is the log function: the log of the expected value is a linear function of the predictors. We transform the **expected values**, rather than the original data. We need to apply the exponential function to the linear model to go back to the original scale. 
+
+- Functional form: $y_i  \sim Poisson(\mu_i)$ 
+- $E[y_i ]= \mu_i = exp(\alpha+ \beta x_i) = exp(\alpha)exp(\beta x_i)$
+- $log(\mu_i) = \alpha+ \beta x_i$
+
+```{r, fig.align='center'}
+poissonModel <- glm(units ~ temp, data=icecream, family=poisson(link="log"))
+display(poissonModel)
+```
+***
+```{r, fig.align='center'}
+poisPred <- predict(poissonModel, type="response")
+basicPlot()
+lines(icecream$temp, poisPred, col="blue", lwd=2)
+legend(x="topleft", bty="n", lwd=c(2,2), lty=c(NA,1),legend=c("observation", "Poisson (log) GLM"), col=c("#00526D","blue"), pch=c(1,NA))
+```
+Logistic Regression 
+========================================================
+Assume market size of 800 potential sales. Estimate the proportion (out of total market) sold at a given temperature. 
+
+
+Our DV here is **binary**: the probability of a sale as a function of temperature. As temp goes up, we approach market saturation.
+- Functional form: $y_i  \sim Binom(n, \mu_i)$
+- $E[y_i ]= \mu_i = logit^{-1}(\alpha+ \beta x_i)$
+- $logit(\mu_i) = \alpha+ \beta x_i$
+
+```{r, fig.align='center'}
+marketSize <- 800
+icecream$opportunity <- marketSize - icecream$units
+logitModel <- glm(cbind(units, opportunity) ~ temp, data=icecream, family=binomial(link="logit"))
+display(logitModel)
+```
+***
+```{r, fig.align='center'}
+binPred <- predict(logitModel, type="response")*marketSize
+basicPlot()
+lines(icecream$temp, binPred, col="purple", lwd=2)
+legend(x="topleft", bty="n", lwd=c(2,2), lty=c(NA,1),
+       legend=c("observation", "Binomial (logit) GLM"),
+       col=c("#00526D","purple"),  pch=c(1,NA))
+```
+
+
+Helpful Resources
+========================================================
+- http://www.magesblog.com/2015/08/generalised-linear-models-in-r.html?m=1 
+- http://www.statmethods.net/advstats/glm.html
+- http://www.inside-r.org/r-doc/stats/glm
+- https://cran.r-project.org/ 
+
+
+
