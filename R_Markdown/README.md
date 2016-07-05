@@ -56,9 +56,11 @@ call, and be instantiated in some way (here, our params are "cylinders" and "dat
 
 The benefit of using Markdown and parameterizing your code is that you can generate customized documents that have text/plots in common, but that may need specific data points, plots, and unit name fields (i.e. car/country/hospital "x") to change each time. **You're essentially using a "for" loop to generate all the reports you need in a way that is scalable and very easy to update**, provided the input data format and output content format don't change from iteration to iteration. For example, in our .Rmd file, we might have a block of text that is the same for all the reports, and doesn't require customization or alteration:
 
-    This is an example of a generic paragraph that we want to use in ALL the reports we generat, without customizing: 
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut       enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in     reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt     in culpa qui officia deserunt mollit anim id est laborum."
-    
+This is an example of a generic paragraph that we want to use in ALL the reports we generat, without customizing: 
+
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+
+
 
 
 
