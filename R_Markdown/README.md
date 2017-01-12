@@ -60,6 +60,8 @@ This is an example of a generic paragraph that we want to use in ALL the reports
 
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
 
+We can integrate static text like this with statistics, analysis, and/or data visualizations that are tailored for a particular unit of analysis.
+
 
 
 
